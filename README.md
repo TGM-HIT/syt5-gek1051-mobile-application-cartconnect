@@ -29,13 +29,10 @@ This command serves the app at `http://127.0.0.1:8081` and provides basic URL ro
 
 Now you are able to play around with the shopping list.
 
-```
-
 ## Contributing
 
-[https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/blob/main/CONTRIBUTING.md](Please refer to our CONTRIBUTING.MD)
+Please refer to our [CONTRIBUTING.MD](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/blob/main/CONTRIBUTING.md)
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-```
