@@ -20,16 +20,15 @@ When the reader has completed this Code Pattern and explored the code in this Gi
 3. Data is stored locally in PouchDB.
 4. PouchDB syncs its data with a remote IBM Cloudant database.
 
-
 ## Included components
 
-* [Cloudant NoSQL DB](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db): A fully-managed data layer designed for modern web and mobile applications that leverages a flexible JSON schema. Based on the open source Apache CouchDB, IBM Cloudant provides additional full text and geospatial capabilities.
+- [Cloudant NoSQL DB](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db): A fully-managed data layer designed for modern web and mobile applications that leverages a flexible JSON schema. Based on the open source Apache CouchDB, IBM Cloudant provides additional full text and geospatial capabilities.
 
 ## Featured technologies
 
-* [PouchDB](https://pouchdb.com/) - an in-browser database that can replicate to and from a remote Apache CouchDB or IBM Cloudant database.
-* [Vue.js](https://vuejs.org/) - a progressive JavaScript framework.
-* [Apache CouchDB](http://couchdb.apache.org/) - modern, document database hosted on your server or in the cloud.
+- [PouchDB](https://pouchdb.com/) - an in-browser database that can replicate to and from a remote Apache CouchDB or IBM Cloudant database.
+- [Vue.js](https://vuejs.org/) - a progressive JavaScript framework.
+- [Apache CouchDB](http://couchdb.apache.org/) - modern, document database hosted on your server or in the cloud.
 
 ## Key concepts
 
@@ -57,7 +56,7 @@ Explore the code in this GitHub repository to see how the Offline First design i
 
 Refer to the [tutorial](https://github.com/ibm-watson-data-lab/shopping-list-vuejs-pouchdb/tree/master/tutorial.md) for step-by-step instructions on how to build your own Offline First shopping list Progressive Web App with Vue.js and PouchDB.
 
-# Live demo 
+# Live demo
 
 To see this app in action without installing anything, simply visit [https://ibm-watson-data-lab.github.io/shopping-list-vuejs-pouchdb](https://ibm-watson-data-lab.github.io/shopping-list-vuejs-pouchdb/) in a web browser or on your mobile device.
 
@@ -67,10 +66,11 @@ Want to check out the end product on your own machine? Follow these steps to dep
 
 This app can be deployed to IBM Cloud. You can also run this app on your local machine for development purposes using either a local Apache CouchDB instance or an IBM Cloudant service instance from the IBM Cloud Catalog.
 
-* [Deploy to IBM Cloud](#deploy-to-ibm-cloud) **OR** [Run locally](#run-locally)
-* [Database and replication setup](#database-and-replication-setup)
+- [Deploy to IBM Cloud](#deploy-to-ibm-cloud) **OR** [Run locally](#run-locally)
+- [Database and replication setup](#database-and-replication-setup)
 
 ## Deploy to IBM Cloud
+
 [![Deploy to IBM Cloud](https://metrics-tracker.mybluemix.net/stats/4b4ca7dd406587d30b91b8ecff5eaf6b/button.svg)](https://bluemix.net/deploy?repository=https://github.com/ibm-watson-data-lab/shopping-list-vuejs-pouchdb)
 
 1. Press the above ``Deploy to IBM Cloud`` button and then click on ``Deploy``.
@@ -84,7 +84,6 @@ This app can be deployed to IBM Cloud. You can also run this app on your local m
 
 > NOTE: These steps are only needed when running locally instead of using the ``Deploy to IBM Cloud`` button.
 
-
 1. [Clone the repo](#1-clone-the-repo)
 1. [Install the prerequisites](#2-install-the-prerequisites)
 1. [Run the server](#3-run-the-server)
@@ -94,21 +93,25 @@ This app can be deployed to IBM Cloud. You can also run this app on your local m
 
 Clone the `shopping-list-vuejs-pouchdb` locally. In a terminal, run:
 
-```
-$ git clone https://github.com/ibm-watson-data-lab/shopping-list-vuejs-pouchdb
-$ cd shopping-list-vuejs-pouchdb
+```bash
+git clone https://github.com/ibm-watson-data-lab/shopping-list-vuejs-pouchdb
+cd shopping-list-vuejs-pouchdb
 ```
 ### 2. Install the prerequisites
 
 First, install the pre-requisites (we assume you have pre-installed [Node.js](https://nodejs.org/)):
 
-    $ npm install 
+```bash
+npm install 
+```
 
 ### 3. Run the server
 
 This command serves the app at `http://127.0.0.1:8081` and provides basic URL routing for the app:
 
-    $ npm start
+```bash
+npm start
+```
 
 ### 4. Create a Cloudant or CouchDB service
 
@@ -124,37 +127,38 @@ Configure CouchDB for a [single-node setup](http://docs.couchdb.org/en/2.1.0/ins
 
 To provision a managed Cloudant NoSQL DB
 
-* Log in to [IBM Cloud](https://console.ng.bluemix.net/).
+- Log in to [IBM Cloud](https://console.ng.bluemix.net/).
    > Sign up for an account, if you do not already have one.
-* [Provision a Cloudant NoSQL DB _Lite_ plan instance](https://console.bluemix.net/catalog/services/cloudant-nosql-db), which is free.
+- [Provision a Cloudant NoSQL DB _Lite_ plan instance](https://console.bluemix.net/catalog/services/cloudant-nosql-db), which is free.
   > If desired, you can also re-use an existing Cloudant NoSQL DB service instance. (Open the [**Data & Analytics**  resources dashboard](https://console.bluemix.net/dashboard/data) to see a list of pre-provisioned instances that you have access to.) 
- * Open the **Service credentials** tab.
-* Add new credentials for this service instance if no credentials have been defined yet.
-* View the credentials and note the value of the **url** property, which has the following format: `https://username:password@username-bluemix.cloudant.com`.
+- Open the **Service credentials** tab.
+- Add new credentials for this service instance if no credentials have been defined yet.
+- View the credentials and note the value of the **url** property, which has the following format: `https://username:password@username-bluemix.cloudant.com`.
 
 Tip: Select the **Manage** tab and click **Launch** to open the Cloudant dashboard and manage the service instance.
 
 ## Database and replication setup
+
 1. [Create the remote database](#1-create-the-remote-database)
 1. [Enable CORS](#2-enable-cors)
 1. [Set the replication target](#3-set-the-replication-target)
 
 ### 1. Create the remote database
 
-* Use the Cloudant or CouchDB dashboard to create a database.
+- Use the Cloudant or CouchDB dashboard to create a database.
 
-* Select the Databases tab on the left and then use the `Create Database` button to create the "shopping-list" database.
+- Select the Databases tab on the left and then use the `Create Database` button to create the "shopping-list" database.
 The Shopping List app can be used locally before the database exists, but cannot sync until the remote database is completed.
 
   ![Create the shopping-list database](doc/source/images/create_db.png)
 
 ### 2. Enable CORS
 
-* Open the Cloudant or CouchDB dashboard to enable Cross-Origin Resource Sharing (CORS).
+- Open the Cloudant or CouchDB dashboard to enable Cross-Origin Resource Sharing (CORS).
 
-* Select the Account Settings (or config) tab and open the **CORS** tab.
+- Select the Account Settings (or config) tab and open the **CORS** tab.
 
-* Enable CORS and restrict the domain as needed for security.
+- Enable CORS and restrict the domain as needed for security.
 
   ![Enable CORS](doc/source/images/enable_cors.png)
 
@@ -205,20 +209,20 @@ Refer to [https://github.com/IBM/metrics-collector-service#privacy-notice](https
 
 To disable tracking, simply remove ``require('metrics-tracker-client').track()`` from the ``app.js`` file in the top level directory.
 
-
 # Links
-* [More Shopping List Sample Apps](https://github.com/ibm-watson-data-lab/shopping-list)
-* [Offline First](http://offlinefirst.org/)
-* [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/)
-* [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)
-* [Web App Manifest](https://w3c.github.io/manifest/)
-* [PouchDB](https://pouchdb.com/)
-* [Apache CouchDB](https://couchdb.apache.org/)
-* [IBM Cloudant](https://www.ibm.com/cloud/cloudant)
-* [Material Design Guidelines](https://material.io/guidelines/)
-* [Vue Material](https://vuematerial.io/)
-* [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
+- [More Shopping List Sample Apps](https://github.com/ibm-watson-data-lab/shopping-list)
+- [Offline First](http://offlinefirst.org/)
+- [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/)
+- [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)
+- [Web App Manifest](https://w3c.github.io/manifest/)
+- [PouchDB](https://pouchdb.com/)
+- [Apache CouchDB](https://couchdb.apache.org/)
+- [IBM Cloudant](https://www.ibm.com/cloud/cloudant)
+- [Material Design Guidelines](https://material.io/guidelines/)
+- [Vue Material](https://vuematerial.io/)
+- [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
 # License
+
 [Apache 2.0](LICENSE)
