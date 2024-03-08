@@ -1,7 +1,6 @@
-[![Build Status](https://travis-ci.org/ibm-watson-data-lab/shopping-list-vuejs-pouchdb.svg?branch=master)](https://travis-ci.org/ibm-watson-data-lab/shopping-list-vuejs-pouchdb)
-![IBM Cloud Deployments](https://metrics-tracker.mybluemix.net/stats/4b4ca7dd406587d30b91b8ecff5eaf6b/badge.svg)
+# CartConnect
 
-# Create an Offline First Shopping List with Vue.js and PouchDB
+CartConnect is a sharable offline first web application for sharing your personal shopping list (cart)
 
 This code pattern is a reference implementation of an Offline First shopping list app, built as a [Progressive Web App](https://developers.google.com/web/progressive-web-apps/) using [Vue.js](https://vuejs.org/) and [PouchDB](https://pouchdb.com/). [This app is part of a series of Offline First demo apps, each built using a different stack.](https://github.com/ibm-watson-data-lab/shopping-list)
 
@@ -89,17 +88,21 @@ This app can be deployed to IBM Cloud. You can also run this app on your local m
 1. [Run the server](#3-run-the-server)
 1. [Create a Cloudant or CouchDB service](#4-create-a-cloudant-or-couchdb-service)
 
+## Installation
+
 ### 1. Clone the repo
 
-Clone the `shopping-list-vuejs-pouchdb` locally. In a terminal, run:
+Clone the `syt5-gek1051-mobile-application-cartconnect` locally. In a terminal, run:
 
 ```bash
 git clone https://github.com/ibm-watson-data-lab/shopping-list-vuejs-pouchdb
 cd shopping-list-vuejs-pouchdb
 ```
+
 ### 2. Install the prerequisites
 
 First, install the pre-requisites (we assume you have pre-installed [Node.js](https://nodejs.org/)):
+
 
 ```bash
 npm install 
@@ -207,7 +210,8 @@ Refer to [https://github.com/IBM/metrics-collector-service#privacy-notice](https
 
 ## Disabling Deployment Tracking
 
-To disable tracking, simply remove ``require('metrics-tracker-client').track()`` from the ``app.js`` file in the top level directory.
+
+Now you are able to play around with the shopping list.
 
 # Links
 
@@ -226,3 +230,10 @@ To disable tracking, simply remove ``require('metrics-tracker-client').track()``
 # License
 
 [Apache 2.0](LICENSE)
+## Contributing
+
+Please refer to our [CONTRIBUTING.MD](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/blob/main/CONTRIBUTING.md)
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
