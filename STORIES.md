@@ -1,22 +1,23 @@
 # User Stories
-|  ID  | Story                                                        | HEAD | Priority | Storypoints | Status      | Issue |
-| :--: | ------------------------------------------------------------ | ---- | -------- | ----------- | ----------- | ----- |
-|  1   | Als User möchte ich, dass die mit geteilten Einkaufslisten synchronisiert werden sobald ich online bin | BENK | MH       | 4           | IN PROGRESS |       |
-|  2   | Als User will ich mich authentifizieren und anmelden können um zugriff auf geteilte und meine eigenen Listen zu haben | NIKK | MH       | 3           | IN PROGRESS |       |
-|  3   | Als User möchte ich meine erstellten Einkaufslisten über einen Link mit gewünschten Personen teilen können. | ALEH | MH       | 3           | IN PROGRESS |       |
-|  4   | Als User will ich den Zugriff auf meine Einkaufslisten beschränken können und Personen zu meinen Listen per E-Mail einladen können. | LUKL | MH       | 4           | IN PROGRESS |       |
-|  5   | Als User will ich die Möglichkeit haben meine Einkaufsliste als PDF zu exportieren um diese ggf. auszudrucken. | BENK | SH       | 1           | TODO        |       |
-|  6   | Als User will ich Bilder zu den Produkten hochladen können   | ALEH | SH       | 2           | TODO        |       |
-|  7   | Als User will ich die Produkte auf einer Liste sortieren können | NIKK | SH       | 1           | TODO        |       |
-|  8   | Als User will ich die Möglichkeit haben  einem Produkt auf meiner Liste einen Preis und eine Anzahl hinzufügen. | LUKL | SH       | 1           | TODO        |       |
-|  9   | Als User will ich die WebApp mit einem Darkmode anzeigen lassen können | NIKK | N2H      | 2           | TODO        |       |
-|  10  | Als User will ich die Möglichkeit haben nach einer Einkaufsliste und nach Produkten auf einer Liste über eine Suchleiste zu suchen | BENK | N2H      | 2           | TODO        |       |
-|  11  | Als User will ich die Möglichkeit haben ein Liste zu duplizieren um sie als Vorlage für weitere Einkäufe zu nutzen | ALEH | N2H      | 1           | TODO        |       |
-|  12  | Als User will ich die Möglichkeit haben eine gelöschte Liste wiederherzustellen | ALEH | N2H      | 2           | TODO        |       |
-|  13  | Als User möchte ich den Gesamtpreis einer Liste angezeigt bekommen falls die Produkte einen Preis zugewiesen haben | BENK | N2H      | 1           | TODO        |       |
-|  14  | Als User will ich automatisch nach fünf Minuten Inaktivität automatisch ausgeloggt werden. | NIKK | N2H      | 1           | TODO        |       |
-|  15  | Als User will ich der Einkaufsliste ein geplantes Durchführungsdatum hinzufügen können. | LUKL | N2H      | 1           | TODO        |       |
-|  16  | Als User will ich der Einkaufsliste eine Verantwortliche Person zuweisen können. | LUKL | N2H      | 1           | TODO        |       |
+
+|  ID  | Story                                                        | HEAD | Priority | Storypoints | Issue                                                        |
+| :--: | ------------------------------------------------------------ | ---- | -------- | ----------- | ------------------------------------------------------------ |
+|  1   | Als User möchte ich, dass die mit mir geteilten Einkaufslisten synchronisiert werden sobald ich online bin damit alle User die gleichen Einträge auf der Einkaufsliste haben. | BENK | MH       | 4           | [#1](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/8#issue-2163091680) |
+|  2   | Als User möchte ich die Produkte in Kategorien aufgeteilt bekommen, damit ich beispielsweise alle Produkte die ein Obst sind gruppiert sehe um nicht unnötige Wege im Geschäft zu nehmen | NIKK | MH       | 3           | [#2](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/9#issue-2163093748) |
+|  3   | Als User möchte ich meine erstellten Einkaufslisten über einen Link mit gewünschten Personen teilen können. | ALEH | MH       | 3           | [#3](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/10#issue-2163094684) |
+|  4   | Als User will ich die Möglichkeit haben nach einer Einkaufsliste und nach Produkten auf einer Liste über eine Suchleiste zu suchen | LUKL | MH       | 3           | [#4](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/11#issue-2163096180) |
+|  5   | Als User will ich die Möglichkeit haben die Listen in der Web-App zu verschieben um wichtige Einkäufe zuerst angezeigt zu bekommen. | BENK | SH       | 1           | [#5](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/13#issue-2175491084) |
+|  6   | Als User will ich Bilder zu den Produkten hochladen können um diese besser zu identifizieren | ALEH | SH       | 2           | [#6](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/14) |
+|  7   | Als User will ich die Produkte auf einer Liste sortieren können | NIKK | SH       | 1           | [#7](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/15) |
+|  8   | Als User will ich die Möglichkeit haben  einem Produkt auf meiner Liste eine Anzahl hinzufügen. | LUKL | SH       | 1           | [#8](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/16) |
+|  9   | Als User will ich die WebApp mit einem Darkmode anzeigen lassen können | NIKK | N2H      | 2           | [#9](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/17) |
+|  10  | Als User möchte ich den Produkten einen Tag zuweisen können um beispielsweise zu bestimmen welche Person das Produkt einkaufen soll. | BENK | N2H      | 2           | [#10](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/18) |
+|  11  | Als User will ich die Möglichkeit haben ein Liste zu duplizieren um sie als Vorlage für weitere Einkäufe zu nutzen | ALEH | N2H      | 1           | [#11](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/19) |
+|  12  | Als User will ich die Möglichkeit haben eine gelöschte Liste wiederherzustellen | ALEH | N2H      | 2           | [#12](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/20) |
+|  13  | Als User will ich die Möglichkeit haben meine Einkaufsliste als PDF zu exportieren um diese ggf. auszudrucken. | BENK | N2H      | 1           | [#13](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/21) |
+|  14  | Als User möchte ich die Möglichkeit haben mich Authentifizieren zu können um geteilte Listen auf meinem Profil zu haben. | NIKK | N2H      | 1           | [#14](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/22) |
+|  15  | Als User will ich der Einkaufsliste ein geplantes Durchführungsdatum hinzufügen können um Zeitkritische Einkäufe rechtzeitig zu erledigen. | LUKL | N2H      | 1           | [#15](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/23) |
+|  16  | Als User will ich der Einkaufsliste eine Verantwortliche Person zuweisen können. | LUKL | N2H      | 1           | [#16](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/24) |
 
 BENK ... Benjamin Kissinger
 
@@ -25,3 +26,7 @@ NIKK ... Niklas Kisser
 ALEH ... Alexander Hauser
 
 LUKL ... Lukas Latschbacher
+
+
+
+Storypoint ... 1 Storypoint entspricht 40 Minuten Arbeitszeit
