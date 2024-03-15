@@ -71,3 +71,6 @@ Unser Projekt folgt einem agilen Arbeitsansatz, der eine effiziente Zusammenarbe
 - Bei Bedarf können weitere Anpassungen und Diskussionen über den Code im Pull Request erfolgen, um sicherzustellen, dass die Änderungen den Projektstandards entsprechen und keine Probleme verursachen.
 
 Diese Branching-Regeln helfen uns, eine saubere Codebasis aufrechtzuerhalten, die leicht zu verwalten und zu pflegen ist, und ermöglichen es jedem Teammitglied, effektiv an unserem Projekt zu arbeiten.
+
+### Arbeitsweise
+Um neue Funktionen zu testen wird lokal eine CouchDB-Instanz mittels docker-compose erstellt. Die finale Version wird eine Couch-DB Instanz mittels eines IBM-Cloudant Services verwenden.
