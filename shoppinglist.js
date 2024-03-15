@@ -190,6 +190,16 @@ var app = new Vue({
       this.startSync();
     }).catch((e) => {})
 
+
+
+  },
+  mounted: function() {
+    // if there is a listId in the query string, we load that list
+    const urlParams = new URLSearchParams(window.location.search);
+    const listId = urlParams.get('listId');
+    if (listId) {
+      this.onClickList(listId);
+    }
   },
   methods: {
     /**
@@ -427,7 +437,19 @@ var app = new Vue({
       this.selectedPlace = null;
       this.mode='addlist';
     },
-
+    onShareList: function(id) {
+      const shareLink = window.location.origin + '?listId=' + id;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareLink).then(() => {
+          alert('Link wurde in die Zwischenablage kopiert.');
+        }).catch(err => {
+          console.error('Fehler beim Kopieren des Links: ', err);
+        });
+      } else {
+        console.error('Zwischenablage API nicht verfügbar.');
+      }
+    },
+    
     /**
      * Called when the delete button is pressed next to a shopping list.
      * The shopping list document is located, removed from PouchDB and
@@ -450,8 +472,9 @@ var app = new Vue({
      * @param {String} id
      * @param {String} title
      */
-    onClickList: function(id, title) {
+    onClickList: function(id, title='Test') {
       this.currentListId = id;
+      console.log('currentListId', this.currentListId);
       this.pagetitle = title;
       this.mode = 'itemedit';
     },
