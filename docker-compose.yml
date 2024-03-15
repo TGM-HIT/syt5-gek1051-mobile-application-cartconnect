@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+
+  shopping-db:
+     image: 'apache/couchdb' 
+     container_name: shopping_couchdb 
+     restart: always
+     ports:
+       - "5984:5984"
+     volumes:
+       - /srv/shopping/data:/opt/couchdb/data
+#        - /srv/shopping/conf:/opt/couchdb/etc/local.d
+     environment:
+       COUCHDB_USER: couchdb
+       COUCHDB_PASSWORD: Cart8Connect_DB
