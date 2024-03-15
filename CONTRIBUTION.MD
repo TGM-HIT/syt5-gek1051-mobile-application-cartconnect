@@ -74,3 +74,64 @@ Diese Branching-Regeln helfen uns, eine saubere Codebasis aufrechtzuerhalten, di
 
 ### Arbeitsweise
 Um neue Funktionen zu testen wird lokal eine CouchDB-Instanz mittels docker-compose erstellt. Die finale Version wird eine Couch-DB Instanz mittels eines IBM-Cloudant Services verwenden.
+
+### API Entrypoints
+
+#### PouchDB Initialisierung
+```javascript
+// Initialize PouchDB database
+var db = new PouchDB('shopping-list');
+```
+
+Hier wird eine Instanz von PouchDB erstellt, die für die lokale Speicherung der Einkaufslisten und -elemente verwendet wird. Der Name der Datenbank lautet 'shopping-list'.
+
+#### Template Objects
+```javascript
+// Template for shopping list object
+const sampleShoppingList = { ... };
+
+// Template for shopping list item object
+const sampleListItem = { ... };
+```
+
+Diese beiden Objekte dienen als Vorlagen für neue Einkaufslisten und Einkaufslistelemente. Sie enthalten leere Platzhalterfelder für verschiedene Eigenschaften, die später mit spezifischen Daten gefüllt werden.
+
+#### Sorting Function
+```javascript
+/**
+ * Sort comparison function to sort an object by "createdAt" field
+ *
+ * @param  {Object} a
+ * @param  {Object} b
+ * @returns {Number}
+ */
+const newestFirst = (a, b) => { ... };
+```
+
+Diese Funktion wird verwendet, um Objekte nach ihrem "createdAt" Feld zu sortieren. Sie wird insbesondere für die Sortierung von Einkaufslisten und Einkaufslistelementen nach dem Erstellungsdatum verwendet.
+
+#### AJAX Request Function
+```javascript
+/**
+ * Perform an "AJAX" request i.e call the URL supplied with the 
+ * a querystring constructed from the supplied object
+ *
+ * @param  {String} url 
+ * @param  {Object} querystring 
+ * @returns {Promise}
+ */
+const ajax = function (url, querystring) { ... };
+```
+
+Die ajax-Funktion führt eine AJAX-Anfrage an eine bestimmte URL mit einem angegebenen Query-String-Objekt aus. Diese Funktion wird genutzt, um Daten von externen Quellen abzurufen, wie zum Beispiel Ortsinformationen von OpenStreetMap.
+
+#### Vue Material Plugin und Theme Setup
+```javascript
+// Vue Material plugin setup
+Vue.use(VueMaterial);
+
+// Vue Material theme setup
+Vue.material.registerTheme('default', { ... });
+```
+
+Hier wird das Vue Material Plugin eingebunden und ein Standard-Thema registriert. Dies ermöglicht die Verwendung von Material Design-Komponenten in der Vue.js-Anwendung mit einem voreingestellten Farbschema.
