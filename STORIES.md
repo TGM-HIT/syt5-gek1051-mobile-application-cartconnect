@@ -19,13 +19,13 @@
 |  15  | Als User will ich der Einkaufsliste ein geplantes Durchführungsdatum hinzufügen können um Zeitkritische Einkäufe rechtzeitig zu erledigen. | LUKL | N2H      | 1           | [#15](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/23) |
 |  16  | Als User will ich der Einkaufsliste eine Verantwortliche Person zuweisen können. | LUKL | N2H      | 1           | [#16](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/issues/24) |
 
-BENK ... Benjamin Kissinger
+BENK ... Benjamin Kissinger	   8 Storypoints
 
-NIKK ... Niklas Kisser
+NIKK ... Niklas Kisser					7 Storypoints
 
-ALEH ... Alexander Hauser
+ALEH ... Alexander Hauser		  8 Storypoints
 
-LUKL ... Lukas Latschbacher
+LUKL ... Lukas Latschbacher	   6 Storypoints
 
 
 
