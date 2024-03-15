@@ -25,6 +25,21 @@ This command serves the app at `http://127.0.0.1:8081` and provides basic URL ro
 
     $ npm start
 
+### 4. Install CouchDB
+You can either configure a IBM Cloudant Service ([IBM](https://console.ng.bluemix.net/)) or run the database locally with the [docker-compose](docker-compose.yml) file. Be careful: You have to create
+globalchanges, replicator and users manually.
+
+```bash
+PUT /_global_changes
+Content-Type: application/json
+
+PUT /_replicator
+Content-Type: application/json
+
+PUT /_users
+Content-Type: application/json
+```
+
 ## Usage
 
 Now you are able to play around with the shopping list.
