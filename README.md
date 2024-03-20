@@ -1,6 +1,10 @@
 # CartConnect
 
-CartConnect is a sharable offline first web application for sharing your personal shopping list (cart)
+CartConnect is a sharable offline first web application for sharing your personal shopping list (cart). 
+Overleaf link: [Overleaf](https://de.overleaf.com/5345922844qtnhvmwsvcrw#158355)
+
+## Online Version
+Test our [WebApp](https://cart-connect.netlify.app/) and play around with it!
 
 ## Installation
 
