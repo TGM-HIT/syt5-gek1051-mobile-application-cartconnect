@@ -149,7 +149,7 @@
 
           <!-- shopping item category -->
           <md-input-container>
-            <md-input v-model="newContainerTitle" placeholder="New category e.g. Obst/Gemüse" @keyup.enter.native="onAddListItem"></md-input>
+            <md-input v-model="newCategoryTitle" placeholder="New category e.g. Obst/Gemüse" @keyup.enter.native="onAddListItem"></md-input>
           </md-input-container>
 
           <!-- shopping item add button -->
@@ -158,26 +158,32 @@
           </md-button>
         </md-list-item>
 
-        <!-- shopping list items -->
-        <md-list-item v-for="item in sortedShoppingListItems" :key="item._id" v-if="item.list == currentListId">
+        <div id="app">
+          <div v-for="(items, category) in shoppingListItemsByCategory" :key="category">
+            <h2>{{ category }}</h2>
+            <!-- shopping list items -->
+            <md-list-item v-for="item in sortedShoppingListItems" :key="item._id" v-if="item.list == currentListId"> 
 
-          <!-- checkbox against each item -->
-          <div>
-            <md-checkbox v-model="item.checked" class="md-primary" v-on:change="onCheckListItem(item._id)"></md-checkbox>
+              <!-- checkbox against each item -->
+              <div>
+                <md-checkbox v-model="item.checked" class="md-primary" v-on:change="onCheckListItem(item._id)"></md-checkbox>
+              </div>
+
+              <!-- shopping list item title -->
+              <div class="md-list-text-container">
+                <span v-bind:class="{ cardchecked: item.checked}">{{ item.title }}</span>
+              </div>
+
+              <!-- shopping list item delete button -->
+              <md-button v-on:click="onDeleteItem(item._id)" class="md-icon-button md-list-action">
+                <md-icon>cancel</md-icon>
+              </md-button>
+
+              <md-divider></md-divider>
+            </md-list-item>
           </div>
-
-          <!-- shopping list item title -->
-          <div class="md-list-text-container">
-            <span v-bind:class="{ cardchecked: item.checked}">{{ item.title }}</span>
-          </div>
-
-          <!-- shopping list item delete button -->
-          <md-button v-on:click="onDeleteItem(item._id)" class="md-icon-button md-list-action">
-            <md-icon>cancel</md-icon>
-          </md-button>
-
-          <md-divider></md-divider>
-        </md-list-item>
+        </div>
+        
       </md-list> <!-- shopping list item editor -->
 
       <!-- list of shopping lists -->

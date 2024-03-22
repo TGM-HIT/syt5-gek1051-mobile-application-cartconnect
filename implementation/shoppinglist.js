@@ -24,6 +24,7 @@ const sampleShoppingList = {
 const sampleListItem = {
   "_id": "",
   "type": "item",
+  "category": "",
   "version": 1,
   "title": "",
   "checked": false,
@@ -103,6 +104,7 @@ var app = new Vue({
     singleList: null,
     currentListId: null,
     newItemTitle:'',
+    newCategoryTitle:'',
     places: [],
     selectedPlace: null,
     syncURL:'',
@@ -149,7 +151,25 @@ var app = new Vue({
      */
     sortedShoppingListItems: function() {
       return this.shoppingListItems.sort(newestFirst);
-    }
+    },
+    /**
+     * Returns the shopping list with the items grouped by category
+     * 
+     * @returns {Array}
+     */
+    shoppingListItemsByCategory: function() {
+      var obj = {};
+      for (var d of this.shoppingListItems) {
+        var category = d.category || 'Uncategorized';
+        console.log(category)
+        if (!obj[category]) {
+          obj[category] = [];
+        }
+        obj[category].push(d);
+        console.log(obj)
+      }
+      return obj;
+    },
   },
   /**
    * Called once when the app is first loaded
@@ -467,6 +487,7 @@ var app = new Vue({
       obj._id = 'item:' + cuid();
       obj.title = this.newItemTitle;
       obj.list = this.currentListId;
+      obj.category = this.newCategoryTitle;
       obj.createdAt = new Date().toISOString();
       obj.updatedAt = new Date().toISOString();
       db.put(obj).then( (data) => {
@@ -474,16 +495,7 @@ var app = new Vue({
         this.shoppingListItems.unshift(obj);
         this.newItemTitle = '';
       });
-    },
-
-    /**
-     * Called when an item is checked or unchecked from a shopping list.
-     * The item is located and written to PouchDB
-     * @param {String} id
-     */
-    onCheckListItem: function(id) {
-      this.findUpdateDoc(this.shoppingListItems, id);
-    },
+    },   
 
     /**
      * Called when the Lookup button is pressed. We make an API call to 
