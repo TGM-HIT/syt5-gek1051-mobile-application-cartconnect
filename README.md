@@ -50,7 +50,7 @@ Now you are able to play around with the shopping list.
 
 ## Contributing
 
-Please refer to our [CONTRIBUTION.MD](https://github.com/TGM-HIT/syt5-gek1051-mobile-application-cartconnect/blob/main/CONTRIBUTION.md)
+Please refer to our [CONTRIBUTION.MD](CONTRIBUTION.MD)
 
 ## License
 
