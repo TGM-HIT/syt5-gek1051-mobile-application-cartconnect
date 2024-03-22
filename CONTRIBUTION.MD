@@ -154,10 +154,10 @@ describe('Mein erster Test', function() {
   })
 })
 ```
-Für einen komplexeren Test, welcher die Funktionalität der Datenbank überprüft, schauen Sie [hier](implementation/cypress/e2e/connectDatabase.cy.js).
+Für einen komplexeren Test, welcher die Funktionalität der Datenbank überprüft, kann man  [hier](implementation/cypress/e2e/connectDatabase.cy.js) schauen.
 
 ### Ausführen von Tests
-Dieses Befehl im Terminal ausführen:
+Diesen Befehl im Terminal ausführen:
 
 ```bash
 npx cypress open
