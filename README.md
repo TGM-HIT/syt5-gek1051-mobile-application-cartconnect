@@ -6,6 +6,15 @@ Overleaf link: [Overleaf](https://de.overleaf.com/5345922844qtnhvmwsvcrw#158355)
 ## Online Version
 Test our [WebApp](https://cart-connect.netlify.app/) and play around with it!
 
+## Team
+
+| Name               | E-Mail                          | Rolle               |
+| ------------------ | ------------------------------- | ------------------- |
+| Alexander Hauser   | ahauser2@student.tgm.ac.at      | Technical Architect |
+| Niklas Kisser      | nkisser@student.tgm.ac.at       | Product Owner       |
+| Benjamin Kissinger | bkissinger@student.tgm.ac.at    | Ameise              |
+| Lukas Latschbacher | llatschbacher@student.tgm.ac.at | Bmeise              |
+
 ## Installation
 
 ### 1. Clone the repo
