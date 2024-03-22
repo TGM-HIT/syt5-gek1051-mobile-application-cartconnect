@@ -137,7 +137,7 @@ Vue.material.registerTheme('default', { ... });
 Hier wird das Vue Material Plugin eingebunden und ein Standard-Thema registriert. Dies ermöglicht die Verwendung von Material Design-Komponenten in der Vue.js-Anwendung mit einem voreingestellten Farbschema.
 
 ## Arbeiten/Testen mit Cypress.io
-Cypress.io ist ein End-to-End-Test-Framework, das entwickelt wurde, um Entwicklern zu helfen, ihre Webanwendungen effizient zu testen. Es ermöglicht das Schreiben von Tests in einer einfach zu verstehenden Syntax und bietet eine Vielzahl von Funktionen, die das Testen von Webanwendungen vereinfachen.
+Cypress.io ist ein End-to-End-Test-Framework, das entwickelt wurde, um Entwicklern zu helfen, ihre Webanwendungen effizient zu testen [^1]. Es ermöglicht das Schreiben von Tests in einer einfach zu verstehenden Syntax und bietet eine Vielzahl von Funktionen, die das Testen von Webanwendungen vereinfachen.
 
 **Eine Story gilt erst als abgeschlossen, sobald ein funktionierender Test erstellt wurde, welcher die Funktionalität überprüft.**
 
@@ -168,3 +168,6 @@ Das öffnet das Cypress Test Runner-Fenster, in dem man die Tests auswählen und
 
 ### Weitere Informationen
 Für weitere Informationen über das Arbeiten mit Cypress, einschließlich detaillierter Anleitungen und Beispiele, besuchen Sie bitte die offizielle [Cypress-Dokumentation](https://docs.cypress.io/guides/overview/why-cypress/).
+
+## Prompt Verzeichnis
+[^1]: "Was ist Cypress.io? Fasse die wichtigsten Funktionalitäten zusammen! (ChatGPT, 22.03.2024)"
