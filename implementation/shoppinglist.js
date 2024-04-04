@@ -9,6 +9,7 @@ const sampleShoppingList = {
   "version": 1,
   "title": "",
   "checked": false,
+  "tags": [],
   "place": {
     "title": "",
     "license": null,
@@ -375,6 +376,9 @@ var app = new Vue({
       this.singleList.createdAt = new Date().toISOString();
       this.pagetitle = 'New Shopping List';
       this.places = [];
+
+      //this.singleList.tags = this.tagInput.split(',').map(tag => tag.trim());
+
       this.selectedPlace = null;
       this.mode='addlist';
     },
@@ -394,6 +398,8 @@ var app = new Vue({
         this.shoppingLists.unshift(this.singleList);
       }
       
+      this.singleList.tags = this.tagInput.split(',').map(tag => tag.trim())
+      console.log(this.singleList);
       // write to database
       db.put(this.singleList).then((data) => {
         // keep the revision tokens

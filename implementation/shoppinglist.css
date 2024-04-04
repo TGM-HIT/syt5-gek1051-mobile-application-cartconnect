@@ -28,6 +28,11 @@ body {
   color: #ccc
 }
 
+.tag {
+  margin-right: 8px; 
+}
+
+
 .floatingbutton {
   position: fixed;
   bottom: 5px;

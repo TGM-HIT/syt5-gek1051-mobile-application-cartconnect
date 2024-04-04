@@ -70,6 +70,12 @@
             <label>List name</label>
             <md-input placeholder="e.g. Food" v-model="singleList.title"></md-input>
           </md-input-container>   
+
+          <!-- shopping list tags -->
+          <md-input-container>
+            <label>Tags</label>
+            <md-input placeholder="Enter tags" v-model="tagInput"></md-input>
+          </md-input-container>
           
           <!-- shopping place name -->
           <md-input-container>
@@ -189,6 +195,14 @@
 
             <!-- shopping place title -->
             <div class="md-subhead">{{ list.place.title }}</div>
+
+             <!-- shopping list tags -->
+            <div v-if="list.tags && list.tags.length">
+              <span>Tags: </span>
+              <span class="tag" v-for="(tag, index) in list.tags" :key="index ">{{ tag }}</span>
+            </div>
+            
+            
 
             <!-- 'speed dial' buttons -->
             <md-speed-dial md-open="hover" md-direction="left" class="md-fab-top-right">
