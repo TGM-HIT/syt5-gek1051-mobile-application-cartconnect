@@ -50,6 +50,19 @@
         <md-button id="button-settings" class="md-icon-button" v-if="mode == 'showlist'" v-on:click="onClickSettings">
           <md-icon>settings</md-icon>
         </md-button>
+        
+        <!-- Sync status chips -->
+        <md-chip v-if="syncStatus == 'notsyncing'" class="md-icon-button">
+          Not Syncing
+        </md-chip>
+        <md-chip v-if="syncStatus == 'syncing'" class="md-primary md-icon-button">
+          Syncing
+        </md-chip>
+        <md-chip v-if="syncStatus == 'syncerror'" class="md-warn md-icon-button">
+          Sync Error
+        </md-chip>
+        
+
         <!-- about -->
         <md-button class="md-icon-button" v-if="mode == 'showlist'" v-on:click="onClickAbout">
           <md-icon>info_outline</md-icon>
