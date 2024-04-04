@@ -42,7 +42,7 @@
         <h2 class="md-title" style="flex: 1">{{ pagetitle }}</h2>
         
         <!-- save new shopping list button -->
-        <md-button class="md-icon-button" v-if="mode == 'addlist'" v-on:click="onClickSaveShoppingList" v-bind:disabled="singleList.title.length == 0">
+        <md-button id = "checkList" class="md-icon-button" v-if="mode == 'addlist'" v-on:click="onClickSaveShoppingList" v-bind:disabled="singleList.title.length == 0">
           <md-icon>check</md-icon>
         </md-button>
 
@@ -81,13 +81,13 @@
           <!-- shopping list name -->
           <md-input-container>
             <label>List name</label>
-            <md-input placeholder="e.g. Food" v-model="singleList.title"></md-input>
+            <md-input id = "shoppingName" placeholder="e.g. Food" v-model="singleList.title"></md-input>
           </md-input-container>   
 
           <!-- shopping list tags -->
           <md-input-container>
             <label>Tags</label>
-            <md-input placeholder="Enter tags" v-model="tagInput"></md-input>
+            <md-input id = "shoppingTags" placeholder="Enter tags" v-model="tagInput"></md-input>
           </md-input-container>
           
           <!-- shopping place name -->
@@ -210,7 +210,7 @@
             <div class="md-subhead">{{ list.place.title }}</div>
 
              <!-- shopping list tags -->
-            <div v-if="list.tags && list.tags.length">
+            <div id = "displayTags" v-if="list.tags && list.tags.length">
               <span>Tags: </span>
               <span class="tag" v-for="(tag, index) in list.tags" :key="index ">{{ tag }}</span>
             </div>
@@ -295,7 +295,7 @@
 
       <!-- floating 'add shopping list' button -->
       <div class="floatingbutton" v-if="mode == 'showlist'">
-        <md-button class="md-fab md-primary md-raised" v-on:click="onClickAddShoppingList">
+        <md-button id="addButton" class="md-fab md-primary md-raised" v-on:click="onClickAddShoppingList">
           <md-icon>add</md-icon>
         </md-button>
       </div> <!-- floating 'add shopping list' button -->
