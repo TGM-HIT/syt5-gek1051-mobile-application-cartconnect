@@ -278,7 +278,18 @@ var app = new Vue({
             var match = this.findDoc(arr, change._id);
 
             // fetch eventual conflicts
-            // console.log(match);
+            log = db.get(change._id, { conflicts: true }).then((data) => {
+              console.log('Conflicts:');
+              console.log(data);
+
+              // print losing revisions
+              for (var rev in data._conflicts) {
+                db.get(change._id, { rev: data._conflicts[rev] }).then((res) => {
+                  console.log('Losing revision:');
+                  console.log(res);
+                });
+              }
+            });
 
             // if we have it already 
             if (match.doc) {
