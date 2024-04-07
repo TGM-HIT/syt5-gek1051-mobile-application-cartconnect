@@ -256,11 +256,13 @@ var app = new Vue({
         // handle change
         // if this is an incoming change
         if (info.direction == 'pull' && info.change && info.change.docs) {
-
+          
           // loop through all the changes
           for(var i in info.change.docs) {
             var change = info.change.docs[i];
             var arr = null;
+
+            //console.log(change)
 
             // see if it's an incoming item or list or something else
             if (change._id.match(/^item/)) {
@@ -276,11 +278,25 @@ var app = new Vue({
 
             // if we have it already 
             if (match.doc) {
+              console.log(match)
+              console.log(change)
               // and it's a deletion
               if (change._deleted == true) {
                 // remove it
                 arr.splice(match.i, 1);
               } else {
+
+              /*
+              if (change.version < this.match.version) {
+                console.log('conflict, older version' + this.change.version + ': ');
+                console.log(change);
+              } else if (change.version > this.match.version) {
+                console.log('conflict, older version' + this.match.version + ': ');
+                console.log(this.match);
+                } else {
+                  console.log('no conflict');
+                }*/
+
                 // modify it
                 delete change._revisions;
                 Vue.set(arr, match.i, change);
@@ -377,8 +393,6 @@ var app = new Vue({
       this.pagetitle = 'New Shopping List';
       this.places = [];
 
-      //this.singleList.tags = this.tagInput.split(',').map(tag => tag.trim());
-
       this.selectedPlace = null;
       this.mode='addlist';
     },
@@ -399,7 +413,7 @@ var app = new Vue({
       }
       
       this.singleList.tags = this.tagInput.split(',').map(tag => tag.trim())
-      console.log(this.singleList);
+      //console.log(this.singleList);
       // write to database
       db.put(this.singleList).then((data) => {
         // keep the revision tokens
@@ -475,11 +489,24 @@ var app = new Vue({
       obj.list = this.currentListId;
       obj.createdAt = new Date().toISOString();
       obj.updatedAt = new Date().toISOString();
+      this.singleList.version = this.singleList.version + 1;
       db.put(obj).then( (data) => {
         obj._rev = data.rev;
         this.shoppingListItems.unshift(obj);
         this.newItemTitle = '';
       });
+      
+      //console.log(this.singleList.version);
+      //console.log(this.singleList);
+
+      db.put(this.singleList).then((data) => {
+        // keep the revision tokens
+        this.singleList._rev = data.rev;
+
+        // switch mode
+        //this.onBack();
+      });
+      
     },
 
     /**
@@ -489,6 +516,14 @@ var app = new Vue({
      */
     onCheckListItem: function(id) {
       this.findUpdateDoc(this.shoppingListItems, id);
+      this.singleList.version = this.singleList.version + 1;
+      db.put(this.singleList).then((data) => {
+        // keep the revision tokens
+        this.singleList._rev = data.rev;
+
+        // switch mode
+        //this.onBack();
+      });
     },
 
     /**
@@ -548,6 +583,15 @@ var app = new Vue({
        db.remove(match.doc).then((data) => {
          this.shoppingListItems.splice(match.i, 1);
        });
+
+       this.singleList.version = this.singleList.version + 1;
+      db.put(this.singleList).then((data) => {
+        // keep the revision tokens
+        this.singleList._rev = data.rev;
+
+        // switch mode
+        //this.onBack();
+      });
      }
   }
 })
