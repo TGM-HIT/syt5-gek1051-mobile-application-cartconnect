@@ -105,6 +105,7 @@ var app = new Vue({
     currentListId: null,
     newItemTitle:'',
     places: [],
+    tagInput: '',
     selectedPlace: null,
     syncURL:'',
     syncStatus: 'notsyncing'
@@ -276,10 +277,11 @@ var app = new Vue({
             // locate the doc in our existing arrays
             var match = this.findDoc(arr, change._id);
 
+            // fetch eventual conflicts
+            // console.log(match);
+
             // if we have it already 
             if (match.doc) {
-              console.log(match)
-              console.log(change)
               // and it's a deletion
               if (change._deleted == true) {
                 // remove it
