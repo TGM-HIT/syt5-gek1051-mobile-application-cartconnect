@@ -491,7 +491,7 @@ var app = new Vue({
       obj.list = this.currentListId;
       obj.createdAt = new Date().toISOString();
       obj.updatedAt = new Date().toISOString();
-      this.singleList.version = this.singleList.version + 1;
+      //this.singleList.version = this.singleList.version + 1;
       db.put(obj).then( (data) => {
         obj._rev = data.rev;
         this.shoppingListItems.unshift(obj);
@@ -518,7 +518,7 @@ var app = new Vue({
      */
     onCheckListItem: function(id) {
       this.findUpdateDoc(this.shoppingListItems, id);
-      this.singleList.version = this.singleList.version + 1;
+      // this.singleList.version = this.singleList.version + 1;
       db.put(this.singleList).then((data) => {
         // keep the revision tokens
         this.singleList._rev = data.rev;
@@ -586,7 +586,7 @@ var app = new Vue({
          this.shoppingListItems.splice(match.i, 1);
        });
 
-       this.singleList.version = this.singleList.version + 1;
+       // this.singleList.version = this.singleList.version + 1;
       db.put(this.singleList).then((data) => {
         // keep the revision tokens
         this.singleList._rev = data.rev;
