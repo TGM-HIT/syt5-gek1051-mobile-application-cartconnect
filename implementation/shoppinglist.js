@@ -279,7 +279,7 @@ var app = new Vue({
 
             // fetch eventual conflicts
             log = db.get(change._id, { conflicts: true }).then((data) => {
-              console.log('Conflicts:');
+              console.log('Eventual Conflicts (Only if old revisions will be printed):');
               console.log(data);
 
               // print losing revisions
