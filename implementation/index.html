@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--Npm probleme, kleines Hoppala-->
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
@@ -50,6 +52,8 @@
         <md-button id="button-settings" class="md-icon-button" v-if="mode == 'showlist'" v-on:click="onClickSettings">
           <md-icon>settings</md-icon>
         </md-button>
+
+        <md-button v-on:click="onClickDownloadPDF">Download PDF</md-button>
         
         <!-- Sync status chips -->
         <md-chip v-if="syncStatus == 'notsyncing'" class="md-icon-button">
@@ -216,7 +220,7 @@
             <div class="md-subhead">{{ list.place.title }}</div>
 
             <!-- shopping list date -->
-            <md-input-container v-if="list.date">
+            <md-input-container v-if=" list.date">
               <label>Execution Date</label>
               <md-input :value="list.date" readonly v-bind:style="{ backgroundColor: isDateInPast(list.date) ? 'red' : 'white' }"></md-input>
             </md-input-container>

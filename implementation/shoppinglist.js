@@ -1,4 +1,5 @@
 
+
 // this will be the PouchDB database
 var db = new PouchDB('shopping');
 
@@ -195,6 +196,28 @@ var app = new Vue({
 
   },
   methods: {
+
+    /**
+     * Called when the user clicks the "Download PDF" button. This function
+     * creates a new instance of jsPDF and loops through the shopping lists
+     * adding the title, date and place to the PDF. The PDF is then saved
+     * to the user's device.
+    */
+    onClickDownloadPDF() {
+      // Erstellen Sie eine neue Instanz von jsPDF
+      const doc = new jsPDF();
+  
+      // Schleife durch die Einkaufslisten und fügen Sie Titel und Details zum PDF hinzu
+      this.shoppingLists.forEach((list, index) => {
+        doc.text(10, 10 + index * 10, `Title: ${list.title}`);
+        doc.text(10, 20 + index * 10, `Execution Date: ${list.date}`);
+        doc.text(10, 30 + index * 10, `Place: ${list.place.title}`);
+        // Fügen Sie weitere Informationen hinzu, je nach Bedarf
+      });
+  
+      // Speichern und Herunterladen des PDFs
+      doc.save('shopping_lists.pdf');
+    },
 
     /**
      * Checks if date is in the past
