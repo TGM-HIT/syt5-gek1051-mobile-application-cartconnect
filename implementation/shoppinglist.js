@@ -10,6 +10,7 @@ const sampleShoppingList = {
   "title": "",
   "checked": false,
   "tags": [],
+  "date": "",
   "place": {
     "title": "",
     "license": null,
@@ -194,6 +195,18 @@ var app = new Vue({
 
   },
   methods: {
+
+    /**
+     * Checks if date is in the past
+     * @param {*} date 
+     * @returns true/false
+     */
+    isDateInPast(date) {
+      if (!date) return false; // Return false if date is not set
+      const currentDate = new Date(); // Get current date
+      const inputDate = new Date(date); // Parse input date
+      return inputDate < currentDate; // Compare dates
+    },
     /**
      * Called when the settings button is pressed. Sets the mode
      * to 'settings' so the Vue displays the settings panel.

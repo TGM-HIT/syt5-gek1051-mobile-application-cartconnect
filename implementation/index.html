@@ -89,6 +89,12 @@
             <label>Tags</label>
             <md-input id = "shoppingTags" placeholder="Enter tags" v-model="tagInput"></md-input>
           </md-input-container>
+
+          <!-- Durchführungsdatum -->
+          <md-input-container v-if="singleList.date">
+              <label>Execution Date</label>
+              <md-input placeholder="Enter Execution Date" v-model="singleList.date" type="date" v-bind:style="{ backgroundColor: isDateInPast(singleList.date) ? 'red' : 'white' }"></md-input>
+            </md-input-container>
           
           <!-- shopping place name -->
           <md-input-container>
@@ -209,10 +215,18 @@
             <!-- shopping place title -->
             <div class="md-subhead">{{ list.place.title }}</div>
 
+            <!-- shopping list date -->
+            <md-input-container v-if="list.date">
+              <label>Execution Date</label>
+              <md-input :value="list.date" readonly v-bind:style="{ backgroundColor: isDateInPast(list.date) ? 'red' : 'white' }"></md-input>
+            </md-input-container>
+
+            
+
              <!-- shopping list tags -->
-            <div id = "displayTags" v-if="list.tags && list.tags.length">
+            <div id="displayTags" v-if="list.tags && list.tags.length > 0">
               <span>Tags: </span>
-              <span class="tag" v-for="(tag, index) in list.tags" :key="index ">{{ tag }}</span>
+              <span class="tag" v-for="(tag, index) in list.tags" :key="index">{{ tag }}</span>
             </div>
             
             
