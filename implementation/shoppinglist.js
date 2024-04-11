@@ -29,13 +29,26 @@ const sampleListItem = {
   "type": "item",
   "version": 1,
   "title": "",
+  "tags": [],
   "checked": false,
   "createdAt": "",
   "updatedAt": ""
 };
 
+const alphabetically = (a, b) => {
+  if (a.title < b.title) return -1;
+  if (a.title > b.title) return 1;
+  return 0;
+}
+
+const unalphabetically = (a, b) => {
+  if (a.title > b.title) return -1;
+  if (a.title < b.title) return 1;
+  return 0;
+}
+
 /**
- * Sort comparison function to sort an object by "createdAt" field
+ * Sort comparison function to sort an object ascending by "createdAt" field
  *
  * @param  {String} a
  * @param  {String} b
@@ -45,6 +58,19 @@ const newestFirst = (a, b) => {
   if (a.createdAt > b.createdAt) return -1;
   if (a.createdAt < b.createdAt) return 1;
   return 0 
+};
+
+/**
+ * Sort comparison function to sort an object descending by "createdAt" field
+ *
+ * @param  {String} a
+ * @param  {String} b
+ * @returns {Number}
+ */
+const oldestFirst = (a, b) => {
+  if (a.createdAt < b.createdAt) return -1;
+  if (a.createdAt > b.createdAt) return 1;
+  return 0;
 };
 
 /**
@@ -110,8 +136,10 @@ var app = new Vue({
     tagInput: '',
     selectedPlace: null,
     syncURL:'',
-    syncStatus: 'notsyncing'
-  },
+    syncStatus: 'notsyncing',
+    sortOrder: 'asc',
+    sortType: 'date'
+    },
   // computed functions return data derived from the core data.
   // if the core data changes, then this function will be called too.
   computed: {
@@ -152,8 +180,11 @@ var app = new Vue({
      * @returns {Array}
      */
     sortedShoppingListItems: function() {
-      return this.shoppingListItems.sort(newestFirst);
-    }
+      if (this.sortType === 'date') {
+        return this.shoppingListItems.sort(this.sortOrder === 'asc' ? oldestFirst : newestFirst);
+      }
+      return this.shoppingListItems.sort(this.sortOrder === 'asc' ? alphabetically : unalphabetically);
+    },
   },
   /**
    * Called once when the app is first loaded
@@ -196,6 +227,16 @@ var app = new Vue({
 
   },
   methods: {
+
+    toggleDarkMode() {
+      var element = document.body;
+      element.classList.toggle("dark-mode");
+    },  
+    toggleSortType() { 
+      this.sortType = this.sortType === 'date' ? 'alphabetical' : 'date'; // Ändere den Sortiermodus
+    },
+    toggleSortOrder() {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Ändere den Sortiermodus
 
 
     /**
@@ -553,10 +594,14 @@ var app = new Vue({
      */
     onAddListItem: function() {
       if (!this.newItemTitle) return;
+      if (this.itemTagin && this.itemTagin.length > 35) return; 
       var obj = JSON.parse(JSON.stringify(sampleListItem));
       obj._id = 'item:' + cuid();
       obj.title = this.newItemTitle;
       obj.list = this.currentListId;
+      if (this.itemTagin) {
+        obj.tags = this.itemTagin.split(',').map(tag => tag.trim())
+      }
       obj.createdAt = new Date().toISOString();
       obj.updatedAt = new Date().toISOString();
       //this.singleList.version = this.singleList.version + 1;
@@ -564,7 +609,9 @@ var app = new Vue({
         obj._rev = data.rev;
         this.shoppingListItems.unshift(obj);
         this.newItemTitle = '';
+        this.itemTagin = '';
       });
+    },   
       
       //console.log(this.singleList.version);
       //console.log(this.singleList);

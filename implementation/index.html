@@ -43,6 +43,8 @@
         
         <!-- page title -->
         <h2 class="md-title" style="flex: 1">{{ pagetitle }}</h2>
+
+        <button @click="toggleDarkMode">Dark Mode</button>
         
         <!-- save new shopping list button -->
         <md-button id = "checkList" class="md-icon-button" v-if="mode == 'addlist'" v-on:click="onClickSaveShoppingList" v-bind:disabled="singleList.title.length == 0">
@@ -178,16 +180,23 @@
             <md-input v-model="newItemTitle" placeholder="New item e.g. eggs" @keyup.enter.native="onAddListItem"></md-input>
           </md-input-container>
 
-          <!-- shopping item category -->
+          <!-- shopping item tags -->
           <md-input-container>
-            <md-input v-model="newContainerTitle" placeholder="New category e.g. Obst/Gemüse" @keyup.enter.native="onAddListItem"></md-input>
+            <label>Tags</label>
+            <md-input v-model="itemTagin" placeholder="New Tag e.g. 7%Fat" @keyup.enter.native="onAddListItem"></md-input>
           </md-input-container>
+
 
           <!-- shopping item add button -->
           <md-button class="md-icon-button md-list-action" v-on:click="onAddListItem" v-bind:disabled="newItemTitle.length == 0">
             <md-icon class="md-primary">add_shopping_cart</md-icon>
           </md-button>
         </md-list-item>
+
+        <!-- shopping list items by date -->
+        <button @click="toggleSortType">Sortiere {{ sortType === 'date' ? 'Datum' : 'Alphabet' }}</button>
+        <button @click="toggleSortOrder">Sortiere {{ sortOrder === 'asc' ? 'absteigend' : 'aufsteigend' }}</button>
+
 
         <!-- shopping list items -->
         <md-list-item v-for="item in sortedShoppingListItems" :key="item._id" v-if="item.list == currentListId">
@@ -202,6 +211,12 @@
             <span v-bind:class="{ cardchecked: item.checked}">{{ item.title }}</span>
           </div>
 
+          <!-- shopping list item tags -->
+          <div id = "displayTags" v-if="item.tags && item.tags.length">
+            <span>Tags: </span>
+            <span class="tag" v-for="(tag, index) in item.tags" :key="index ">{{ tag }}</span>
+          </div>
+
           <!-- shopping list item delete button -->
           <md-button v-on:click="onDeleteItem(item._id)" class="md-icon-button md-list-action">
             <md-icon>cancel</md-icon>
@@ -209,6 +224,7 @@
 
           <md-divider></md-divider>
         </md-list-item>
+        
       </md-list> <!-- shopping list item editor -->
 
       <!-- list of shopping lists -->
