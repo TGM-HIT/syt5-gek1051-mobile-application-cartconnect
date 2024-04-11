@@ -40,6 +40,8 @@
         
         <!-- page title -->
         <h2 class="md-title" style="flex: 1">{{ pagetitle }}</h2>
+
+        <button @click="toggleDarkMode">Dark Mode</button>
         
         <!-- save new shopping list button -->
         <md-button id = "checkList" class="md-icon-button" v-if="mode == 'addlist'" v-on:click="onClickSaveShoppingList" v-bind:disabled="singleList.title.length == 0">

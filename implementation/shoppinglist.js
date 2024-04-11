@@ -223,6 +223,10 @@ var app = new Vue({
 
   },
   methods: {
+    toggleDarkMode() {
+      var element = document.body;
+      element.classList.toggle("dark-mode");
+    },  
     toggleSortType() { 
       this.sortType = this.sortType === 'date' ? 'alphabetical' : 'date'; // Ändere den Sortiermodus
     },
