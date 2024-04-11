@@ -1,3 +1,4 @@
+//import { jsPDF } from "jspdf";
 
 // this will be the PouchDB database
 var db = new PouchDB('shopping');
@@ -10,6 +11,7 @@ const sampleShoppingList = {
   "title": "",
   "checked": false,
   "tags": [],
+  "date": "",
   "place": {
     "title": "",
     "license": null,
@@ -105,6 +107,7 @@ var app = new Vue({
     currentListId: null,
     newItemTitle:'',
     places: [],
+    tagInput: '',
     selectedPlace: null,
     syncURL:'',
     syncStatus: 'notsyncing'
@@ -193,6 +196,61 @@ var app = new Vue({
 
   },
   methods: {
+
+
+    /**
+     * Called when the user clicks the "Download PDF" button. This function
+     * creates a new instance of jsPDF and loops through the shopping lists
+     * adding the title, date and place to the PDF. The PDF is then saved
+     * to the user's device.
+    */
+   
+    onClickDownloadPDF() {
+      const doc = new jsPDF();
+    
+      const lineHeight = 10;
+      let currentY = 10;
+    
+      this.shoppingLists.forEach((list, index) => {
+        doc.text(10, currentY, `Title: ${list.title}`);
+        doc.text(10, currentY + lineHeight, `Execution Date: ${list.date}`);
+        doc.text(10, currentY + 2 * lineHeight, `Place: ${list.place.title}`);
+
+        if (list.tags.length > 0) {
+          doc.text(10, currentY + 3 * lineHeight, `Tags: ${list.tags.join(', ')}`);
+        }
+
+        doc.text(10, currentY + 4 * lineHeight, 'Items:')
+    
+        currentY += 5 * lineHeight;
+    
+        this.shoppingListItems.forEach((item) => {
+          if (item.list === list._id) {
+            doc.text(20, currentY, `${item.title}`);
+            currentY += lineHeight;
+          }
+        });
+    
+        doc.text(10, currentY, '------------------------------------------');
+    
+        currentY += lineHeight;
+      });
+    
+      doc.save('shopping_lists.pdf');
+    },
+    
+
+    /**
+     * Checks if date is in the past
+     * @param {*} date 
+     * @returns true/false
+     */
+    isDateInPast(date) {
+      if (!date) return false; // Return false if date is not set
+      const currentDate = new Date(); // Get current date
+      const inputDate = new Date(date); // Parse input date
+      return inputDate < currentDate; // Compare dates
+    },
     /**
      * Called when the settings button is pressed. Sets the mode
      * to 'settings' so the Vue displays the settings panel.
@@ -256,11 +314,13 @@ var app = new Vue({
         // handle change
         // if this is an incoming change
         if (info.direction == 'pull' && info.change && info.change.docs) {
-
+          
           // loop through all the changes
           for(var i in info.change.docs) {
             var change = info.change.docs[i];
             var arr = null;
+
+            //console.log(change)
 
             // see if it's an incoming item or list or something else
             if (change._id.match(/^item/)) {
@@ -274,6 +334,20 @@ var app = new Vue({
             // locate the doc in our existing arrays
             var match = this.findDoc(arr, change._id);
 
+            // fetch eventual conflicts
+            log = db.get(change._id, { conflicts: true }).then((data) => {
+              console.log('Eventual Conflicts (Only if old revisions will be printed):');
+              console.log(data);
+
+              // print losing revisions
+              for (var rev in data._conflicts) {
+                db.get(change._id, { rev: data._conflicts[rev] }).then((res) => {
+                  console.log('Losing revision:');
+                  console.log(res);
+                });
+              }
+            });
+
             // if we have it already 
             if (match.doc) {
               // and it's a deletion
@@ -281,6 +355,18 @@ var app = new Vue({
                 // remove it
                 arr.splice(match.i, 1);
               } else {
+
+              /*
+              if (change.version < this.match.version) {
+                console.log('conflict, older version' + this.change.version + ': ');
+                console.log(change);
+              } else if (change.version > this.match.version) {
+                console.log('conflict, older version' + this.match.version + ': ');
+                console.log(this.match);
+                } else {
+                  console.log('no conflict');
+                }*/
+
                 // modify it
                 delete change._revisions;
                 Vue.set(arr, match.i, change);
@@ -377,8 +463,6 @@ var app = new Vue({
       this.pagetitle = 'New Shopping List';
       this.places = [];
 
-      //this.singleList.tags = this.tagInput.split(',').map(tag => tag.trim());
-
       this.selectedPlace = null;
       this.mode='addlist';
     },
@@ -399,7 +483,7 @@ var app = new Vue({
       }
       
       this.singleList.tags = this.tagInput.split(',').map(tag => tag.trim())
-      console.log(this.singleList);
+      //console.log(this.singleList);
       // write to database
       db.put(this.singleList).then((data) => {
         // keep the revision tokens
@@ -475,11 +559,24 @@ var app = new Vue({
       obj.list = this.currentListId;
       obj.createdAt = new Date().toISOString();
       obj.updatedAt = new Date().toISOString();
+      //this.singleList.version = this.singleList.version + 1;
       db.put(obj).then( (data) => {
         obj._rev = data.rev;
         this.shoppingListItems.unshift(obj);
         this.newItemTitle = '';
       });
+      
+      //console.log(this.singleList.version);
+      //console.log(this.singleList);
+
+      db.put(this.singleList).then((data) => {
+        // keep the revision tokens
+        this.singleList._rev = data.rev;
+
+        // switch mode
+        //this.onBack();
+      });
+      
     },
 
     /**
@@ -489,6 +586,14 @@ var app = new Vue({
      */
     onCheckListItem: function(id) {
       this.findUpdateDoc(this.shoppingListItems, id);
+      // this.singleList.version = this.singleList.version + 1;
+      db.put(this.singleList).then((data) => {
+        // keep the revision tokens
+        this.singleList._rev = data.rev;
+
+        // switch mode
+        //this.onBack();
+      });
     },
 
     /**
@@ -548,6 +653,15 @@ var app = new Vue({
        db.remove(match.doc).then((data) => {
          this.shoppingListItems.splice(match.i, 1);
        });
+
+       // this.singleList.version = this.singleList.version + 1;
+      db.put(this.singleList).then((data) => {
+        // keep the revision tokens
+        this.singleList._rev = data.rev;
+
+        // switch mode
+        //this.onBack();
+      });
      }
   }
 })

@@ -4,6 +4,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <title>Shopping List</title>
+  <!--Npm probleme, kleines Hoppala
+  <script type="module" src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script> -->
 
   <!-- mobile styling -->
   <meta name="theme-color" content="#448AFF">
@@ -26,6 +28,7 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
 
   <!-- Vue app -->
   <div id="app" class="app-viewport" v-cloak>    
@@ -50,6 +53,9 @@
         <md-button id="button-settings" class="md-icon-button" v-if="mode == 'showlist'" v-on:click="onClickSettings">
           <md-icon>settings</md-icon>
         </md-button>
+        
+        <!-- pdf download button -->
+        <md-button v-on:click="onClickDownloadPDF">Download PDF</md-button> 
         
         <!-- Sync status chips -->
         <md-chip v-if="syncStatus == 'notsyncing'" class="md-icon-button">
@@ -89,6 +95,12 @@
             <label>Tags</label>
             <md-input id = "shoppingTags" placeholder="Enter tags" v-model="tagInput"></md-input>
           </md-input-container>
+
+          <!-- Durchführungsdatum -->
+          <md-input-container>
+              <label>Execution Date</label>
+              <md-input placeholder="Enter Execution Date" v-model="singleList.date" type="date" v-bind:style="{ backgroundColor: isDateInPast(singleList.date) ? 'red' : 'white' }"></md-input>
+            </md-input-container>
           
           <!-- shopping place name -->
           <md-input-container>
@@ -209,10 +221,18 @@
             <!-- shopping place title -->
             <div class="md-subhead">{{ list.place.title }}</div>
 
+            <!-- shopping list date -->
+            <md-input-container v-if=" list.date">
+              <label>Execution Date</label>
+              <md-input :value="list.date" readonly v-bind:style="{ backgroundColor: isDateInPast(list.date) ? 'red' : 'white' }"></md-input>
+            </md-input-container>
+
+            
+
              <!-- shopping list tags -->
-            <div id = "displayTags" v-if="list.tags && list.tags.length">
+            <div id="displayTags" v-if="list.tags && list.tags.length > 0">
               <span>Tags: </span>
-              <span class="tag" v-for="(tag, index) in list.tags" :key="index ">{{ tag }}</span>
+              <span class="tag" v-for="(tag, index) in list.tags" :key="index">{{ tag }}</span>
             </div>
             
             
