@@ -208,33 +208,47 @@ var app = new Vue({
     onClickDownloadPDF() {
       // Erstellen Sie eine neue Instanz von jsPDF
       const doc = new jsPDF();
-  
+    
       // Definieren Sie den Abstand zwischen den einzelnen Listen
       const lineHeight = 10;
-  
+      let currentY = 10;
+    
       // Schleife durch die Einkaufslisten und fügen Sie Titel, Details und Items zum PDF hinzu
       this.shoppingLists.forEach((list, index) => {
         // Fügen Sie Titel, Execution Date und Place hinzu
-        doc.text(10, 10 + index * lineHeight, `Title: ${list.title}`);
-        doc.text(10, 20 + index * lineHeight, `Execution Date: ${list.date}`);
-        doc.text(10, 30 + index * lineHeight, `Place: ${list.place.title}`);
-        
-        if (list.items !== undefined) {
-            // Fügen Sie alle Items hinzu
-            list.items.forEach((item, itemIndex) => {
-              const itemY = 40 + (index * lineHeight) + (itemIndex * lineHeight);
-              doc.text(20, itemY, `${item.name} - Quantity: ${item.quantity}`);
-              // Fügen Sie weitere Informationen zu jedem Artikel hinzu, falls benötigt
-            });
-      
-            // Fügen Sie einen leeren Abschnitt als Abstand zwischen den Listen hinzu
-            doc.text(10, 40 + (index + 1) * lineHeight, '------------------------------------------');
+        doc.text(10, currentY, `Title: ${list.title}`);
+        doc.text(10, currentY + lineHeight, `Execution Date: ${list.date}`);
+        doc.text(10, currentY + 2 * lineHeight, `Place: ${list.place.title}`);
+
+        if (list.tags.length > 0) {
+          doc.text(10, currentY + 3 * lineHeight, `Tags: ${list.tags.join(', ')}`);
         }
+
+        doc.text(10, currentY + 4 * lineHeight, 'Items:')
+    
+        // Aktualisieren Sie die aktuelle Y-Koordinate für den nächsten Abschnitt
+        currentY += 5 * lineHeight;
+    
+        // Fügen Sie alle Items hinzu
+        this.shoppingListItems.forEach((item) => {
+          if (item.list === list._id) {
+            doc.text(20, currentY, `${item.title}`);
+            // Aktualisieren Sie die aktuelle Y-Koordinate für den nächsten Artikel
+            currentY += lineHeight;
+          }
+        });
+    
+        // Fügen Sie einen leeren Abschnitt als Abstand zwischen den Listen hinzu
+        doc.text(10, currentY, '------------------------------------------');
+    
+        // Aktualisieren Sie die aktuelle Y-Koordinate für den nächsten Abschnitt
+        currentY += lineHeight;
       });
-  
+    
       // Speichern und Herunterladen des PDFs
       doc.save('shopping_lists.pdf');
     },
+    
 
     /**
      * Checks if date is in the past
