@@ -1,4 +1,3 @@
-
 // this will be the PouchDB database
 var db = new PouchDB('shopping');
 
@@ -25,6 +24,7 @@ const sampleShoppingList = {
 const sampleListItem = {
   "_id": "",
   "type": "item",
+  "category": "",
   "version": 1,
   "title": "",
   "checked": false,
@@ -32,8 +32,20 @@ const sampleListItem = {
   "updatedAt": ""
 };
 
+const alphabetically = (a, b) => {
+  if (a.title < b.title) return -1;
+  if (a.title > b.title) return 1;
+  return 0;
+}
+
+const unalphabetically = (a, b) => {
+  if (a.title > b.title) return -1;
+  if (a.title < b.title) return 1;
+  return 0;
+}
+
 /**
- * Sort comparison function to sort an object by "createdAt" field
+ * Sort comparison function to sort an object ascending by "createdAt" field
  *
  * @param  {String} a
  * @param  {String} b
@@ -43,6 +55,19 @@ const newestFirst = (a, b) => {
   if (a.createdAt > b.createdAt) return -1;
   if (a.createdAt < b.createdAt) return 1;
   return 0 
+};
+
+/**
+ * Sort comparison function to sort an object descending by "createdAt" field
+ *
+ * @param  {String} a
+ * @param  {String} b
+ * @returns {Number}
+ */
+const oldestFirst = (a, b) => {
+  if (a.createdAt < b.createdAt) return -1;
+  if (a.createdAt > b.createdAt) return 1;
+  return 0;
 };
 
 /**
@@ -104,11 +129,14 @@ var app = new Vue({
     singleList: null,
     currentListId: null,
     newItemTitle:'',
+    newCategoryTitle:'',
     places: [],
     selectedPlace: null,
     syncURL:'',
-    syncStatus: 'notsyncing'
-  },
+    syncStatus: 'notsyncing',
+    sortOrder: 'asc',
+    sortType: 'date'
+    },
   // computed functions return data derived from the core data.
   // if the core data changes, then this function will be called too.
   computed: {
@@ -149,8 +177,29 @@ var app = new Vue({
      * @returns {Array}
      */
     sortedShoppingListItems: function() {
-      return this.shoppingListItems.sort(newestFirst);
-    }
+      if (this.sortType === 'date') {
+        return this.shoppingListItems.sort(this.sortOrder === 'asc' ? oldestFirst : newestFirst);
+      }
+      return this.shoppingListItems.sort(this.sortOrder === 'asc' ? alphabetically : unalphabetically);
+    },
+    /**
+     * Returns the shopping list with the items grouped by category
+     * 
+     * @returns {Array}
+     */
+    shoppingListItemsByCategory: function() {
+      var obj = {};
+      for (var d of this.shoppingListItems) {
+        var category = d.category || 'Uncategorized';
+        console.log(category)
+        if (!obj[category]) {
+          obj[category] = [];
+        }
+        obj[category].push(d);
+        console.log(obj)
+      }
+      return obj;
+    },
   },
   /**
    * Called once when the app is first loaded
@@ -193,6 +242,12 @@ var app = new Vue({
 
   },
   methods: {
+    toggleSortType() { 
+      this.sortType = this.sortType === 'date' ? 'alphabetical' : 'date'; // Ändere den Sortiermodus
+    },
+    toggleSortOrder() {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Ändere den Sortiermodus
+    },
     /**
      * Called when the settings button is pressed. Sets the mode
      * to 'settings' so the Vue displays the settings panel.
@@ -473,6 +528,7 @@ var app = new Vue({
       obj._id = 'item:' + cuid();
       obj.title = this.newItemTitle;
       obj.list = this.currentListId;
+      obj.category = this.newCategoryTitle;
       obj.createdAt = new Date().toISOString();
       obj.updatedAt = new Date().toISOString();
       db.put(obj).then( (data) => {
@@ -480,16 +536,7 @@ var app = new Vue({
         this.shoppingListItems.unshift(obj);
         this.newItemTitle = '';
       });
-    },
-
-    /**
-     * Called when an item is checked or unchecked from a shopping list.
-     * The item is located and written to PouchDB
-     * @param {String} id
-     */
-    onCheckListItem: function(id) {
-      this.findUpdateDoc(this.shoppingListItems, id);
-    },
+    },   
 
     /**
      * Called when the Lookup button is pressed. We make an API call to 
