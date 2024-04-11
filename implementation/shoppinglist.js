@@ -1,4 +1,3 @@
-
 // this will be the PouchDB database
 var db = new PouchDB('shopping');
 
@@ -32,8 +31,20 @@ const sampleListItem = {
   "updatedAt": ""
 };
 
+const alphabetically = (a, b) => {
+  if (a.title < b.title) return -1;
+  if (a.title > b.title) return 1;
+  return 0;
+}
+
+const unalphabetically = (a, b) => {
+  if (a.title > b.title) return -1;
+  if (a.title < b.title) return 1;
+  return 0;
+}
+
 /**
- * Sort comparison function to sort an object by "createdAt" field
+ * Sort comparison function to sort an object ascending by "createdAt" field
  *
  * @param  {String} a
  * @param  {String} b
@@ -43,6 +54,19 @@ const newestFirst = (a, b) => {
   if (a.createdAt > b.createdAt) return -1;
   if (a.createdAt < b.createdAt) return 1;
   return 0 
+};
+
+/**
+ * Sort comparison function to sort an object descending by "createdAt" field
+ *
+ * @param  {String} a
+ * @param  {String} b
+ * @returns {Number}
+ */
+const oldestFirst = (a, b) => {
+  if (a.createdAt < b.createdAt) return -1;
+  if (a.createdAt > b.createdAt) return 1;
+  return 0;
 };
 
 /**
@@ -108,8 +132,10 @@ var app = new Vue({
     places: [],
     selectedPlace: null,
     syncURL:'',
-    syncStatus: 'notsyncing'
-  },
+    syncStatus: 'notsyncing',
+    sortOrder: 'asc',
+    sortType: 'date'
+    },
   // computed functions return data derived from the core data.
   // if the core data changes, then this function will be called too.
   computed: {
@@ -150,7 +176,10 @@ var app = new Vue({
      * @returns {Array}
      */
     sortedShoppingListItems: function() {
-      return this.shoppingListItems.sort(newestFirst);
+      if (this.sortType === 'date') {
+        return this.shoppingListItems.sort(this.sortOrder === 'asc' ? oldestFirst : newestFirst);
+      }
+      return this.shoppingListItems.sort(this.sortOrder === 'asc' ? alphabetically : unalphabetically);
     },
     /**
      * Returns the shopping list with the items grouped by category
@@ -212,6 +241,12 @@ var app = new Vue({
 
   },
   methods: {
+    toggleSortType() { 
+      this.sortType = this.sortType === 'date' ? 'alphabetical' : 'date'; // Ändere den Sortiermodus
+    },
+    toggleSortOrder() {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Ändere den Sortiermodus
+    },
     /**
      * Called when the settings button is pressed. Sets the mode
      * to 'settings' so the Vue displays the settings panel.

@@ -158,6 +158,11 @@
           </md-button>
         </md-list-item>
 
+        <!-- shopping list items by date -->
+        <button @click="toggleSortType">Sortiere {{ sortType === 'date' ? 'Datum' : 'Alphabet' }}</button>
+        <button @click="toggleSortOrder">Sortiere {{ sortOrder === 'asc' ? 'absteigend' : 'aufsteigend' }}</button>
+
+
         <div id="app">
           <div v-for="(items, category) in shoppingListItemsByCategory" :key="category">
             <h2>{{ category }}</h2>
