@@ -509,11 +509,14 @@ var app = new Vue({
      */
     onAddListItem: function() {
       if (!this.newItemTitle) return;
+      if (this.itemTagin && this.itemTagin.length > 35) return; 
       var obj = JSON.parse(JSON.stringify(sampleListItem));
       obj._id = 'item:' + cuid();
       obj.title = this.newItemTitle;
       obj.list = this.currentListId;
-      obj.tags = this.itemTagin.split(',').map(tag => tag.trim())
+      if (this.itemTagin) {
+        obj.tags = this.itemTagin.split(',').map(tag => tag.trim())
+      }
       obj.createdAt = new Date().toISOString();
       obj.updatedAt = new Date().toISOString();
       db.put(obj).then( (data) => {
