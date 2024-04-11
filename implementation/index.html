@@ -166,6 +166,12 @@
             <md-input v-model="newItemTitle" placeholder="New item e.g. eggs" @keyup.enter.native="onAddListItem"></md-input>
           </md-input-container>
 
+          <!-- shopping item tags -->
+          <md-input-container>
+            <label>Tags</label>
+            <md-input v-model="itemTagin" placeholder="New Tag e.g. 7%Fat" @keyup.enter.native="onAddListItem"></md-input>
+          </md-input-container>
+
 
           <!-- shopping item add button -->
           <md-button class="md-icon-button md-list-action" v-on:click="onAddListItem" v-bind:disabled="newItemTitle.length == 0">
@@ -189,6 +195,12 @@
           <!-- shopping list item title -->
           <div class="md-list-text-container">
             <span v-bind:class="{ cardchecked: item.checked}">{{ item.title }}</span>
+          </div>
+
+          <!-- shopping list item tags -->
+          <div id = "displayTags" v-if="item.tags && item.tags.length">
+            <span>Tags: </span>
+            <span class="tag" v-for="(tag, index) in item.tags" :key="index ">{{ tag }}</span>
           </div>
 
           <!-- shopping list item delete button -->

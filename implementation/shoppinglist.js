@@ -24,9 +24,9 @@ const sampleShoppingList = {
 const sampleListItem = {
   "_id": "",
   "type": "item",
-  "category": "",
   "version": 1,
   "title": "",
+  "tags": [],
   "checked": false,
   "createdAt": "",
   "updatedAt": ""
@@ -129,7 +129,6 @@ var app = new Vue({
     singleList: null,
     currentListId: null,
     newItemTitle:'',
-    newCategoryTitle:'',
     places: [],
     selectedPlace: null,
     syncURL:'',
@@ -181,24 +180,6 @@ var app = new Vue({
         return this.shoppingListItems.sort(this.sortOrder === 'asc' ? oldestFirst : newestFirst);
       }
       return this.shoppingListItems.sort(this.sortOrder === 'asc' ? alphabetically : unalphabetically);
-    },
-    /**
-     * Returns the shopping list with the items grouped by category
-     * 
-     * @returns {Array}
-     */
-    shoppingListItemsByCategory: function() {
-      var obj = {};
-      for (var d of this.shoppingListItems) {
-        var category = d.category || 'Uncategorized';
-        console.log(category)
-        if (!obj[category]) {
-          obj[category] = [];
-        }
-        obj[category].push(d);
-        console.log(obj)
-      }
-      return obj;
     },
   },
   /**
@@ -528,13 +509,14 @@ var app = new Vue({
       obj._id = 'item:' + cuid();
       obj.title = this.newItemTitle;
       obj.list = this.currentListId;
-      obj.category = this.newCategoryTitle;
+      obj.tags = this.itemTagin.split(',').map(tag => tag.trim())
       obj.createdAt = new Date().toISOString();
       obj.updatedAt = new Date().toISOString();
       db.put(obj).then( (data) => {
         obj._rev = data.rev;
         this.shoppingListItems.unshift(obj);
         this.newItemTitle = '';
+        this.itemTagin = '';
       });
     },   
 
