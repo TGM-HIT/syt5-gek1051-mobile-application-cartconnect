@@ -237,7 +237,7 @@ var app = new Vue({
     },
     toggleSortOrder() {
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Ändere den Sortiermodus
-
+    },
 
     /**
      * Called when the user clicks the "Download PDF" button. This function
@@ -611,7 +611,6 @@ var app = new Vue({
         this.newItemTitle = '';
         this.itemTagin = '';
       });
-    },   
       
       //console.log(this.singleList.version);
       //console.log(this.singleList);
