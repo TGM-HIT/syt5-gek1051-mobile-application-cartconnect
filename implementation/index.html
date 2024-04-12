@@ -275,7 +275,7 @@
             <md-speed-dial md-open="hover" md-direction="left" class="md-fab-top-right">
 
               <!-- more ... button -->
-              <md-button class="md-fab" md-fab-trigger>
+              <md-button class="md-fab" id="moreButton" md-fab-trigger>
                 <md-icon md-icon-morph>more_vert</md-icon>
                 <md-icon>more_horiz</md-icon>
               </md-button>
@@ -285,11 +285,11 @@
                 <md-icon>edit</md-icon>
               </md-button>
 
-              <md-button class="md-fab md-primary md-mini md-clean" v-on:click="generateShareLink(list._id)">
+              <md-button id="shareButton" class="md-fab md-primary md-mini md-clean" v-on:click="generateShareLink(list._id)">
                 <md-icon>share</md-icon>
               </md-button>
 
-              <md-button class="md-fab md-primary md-mini md-clean" v-on:click="duplicateList(list._id)">
+              <md-button id="copyButton" class="md-fab md-primary md-mini md-clean" v-on:click="duplicateList(list._id)">
                 <md-icon>content_copy</md-icon>
               </md-button>
               
