@@ -19,22 +19,22 @@ describe('Test Sortieren der Listenitems', () => {
       cy.get('#addItemstoList').click()
 
       cy.get('#sortOrderButton').click()
-      cy.get('.md-list-text-container #itemContainer span').first().invoke('text').then((text) => {
+      cy.get('#itemContainer span').first().invoke('text').then((text) => {
         expect(text.trim()).to.equal('Brot'); 
       });
 
       cy.get('#sortOrderButton').click()
-      cy.get('.md-list-text-container #itemContainer span').first().invoke('text').then((text) => {
+      cy.get('#itemContainer span').first().invoke('text').then((text) => {
         expect(text.trim()).to.equal('Apfel'); 
       });
 
       cy.get('#sortTypeButton').click()
-      cy.get('.md-list-text-container #itemContainer span').first().invoke('text').then((text) => {
+      cy.get('#itemContainer span').first().invoke('text').then((text) => {
         expect(text.trim()).to.equal('Apfel'); 
       });
 
-      cy.get('#sortTypeButton').click()
-      cy.get('.md-list-text-container #itemContainer span').first().invoke('text').then((text) => {
+      cy.get('#sortOrderButton').click()
+      cy.get('#itemContainer span').first().invoke('text').then((text) => {
         expect(text.trim()).to.equal('Zitrone'); 
       });
     })
