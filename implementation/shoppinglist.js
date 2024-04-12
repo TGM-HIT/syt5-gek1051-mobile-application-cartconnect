@@ -32,7 +32,9 @@ const sampleListItem = {
   "tags": [],
   "checked": false,
   "createdAt": "",
-  "updatedAt": ""
+  "updatedAt": "",
+  "isGalleryOpen": false,
+  "images": [],
 };
 
 const alphabetically = (a, b) => {
@@ -190,43 +192,143 @@ var app = new Vue({
    * Called once when the app is first loaded
    */
   created: function() {
-
-    // create database index on 'type'
-    db.createIndex({ index: { fields: ['type'] }}).then(() => {
-      
-      // load all 'list' items 
-      var q = {
-        selector: {
-          type: 'list'
-        }
-      };
-      return db.find(q);
-    }).then((data) => {
-
-      // write the data to the Vue model, and from there the web page
-      app.shoppingLists = data.docs;
-
-      // get all of the shopping list items
-      var q = {
-        selector: {
-          type: 'item'
-        }
-      };
-      return db.find(q);
-    }).then((data) => {
-      // write the shopping list items to the Vue model
-      app.shoppingListItems = data.docs;
-
-      // load settings (Cloudant sync URL)
-      return db.get('_local/user');
-    }).then((data) => {
-      // if we have settings, start syncing
-      this.syncURL = data.syncURL;
-      this.startSync();
-    }).catch((e) => {})
-
+    const urlParams = new URLSearchParams(window.location.search);
+    const dataParam = urlParams.get('data');
+  
+    if (dataParam) {
+      try {
+        const compressed = atob(decodeURIComponent(dataParam)); // Base64 dekodieren
+        const decompressed = pako.inflate(compressed, { to: 'string' }); // Dekomprimieren
+        const data = JSON.parse(decompressed);
+  
+        this.singleList = data.list;
+        this.shoppingListItems = data.items;
+        this.currentListId = this.singleList._id;
+        this.mode = 'itemedit'; // Wechsel direkt zur Bearbeitungsansicht
+      } catch (e) {
+        console.error('Error decoding data: ', e);
+      }
+    } else {
+      this.loadInitialData(); // Normales Laden der Daten
+    }
   },
+  
+  
+  // Extrahierte Methode für Datenladung aus der DB
+  
   methods: {
+    duplicateList: function(listId) {
+      const listIndex = this.shoppingLists.findIndex(list => list._id === listId);
+      if (listIndex !== -1) {
+        const newList = JSON.parse(JSON.stringify(this.shoppingLists[listIndex])); // Tiefenkopie der Liste
+        newList._id = 'list:' + cuid(); // Generiere eine neue ID für die kopierte Liste
+        newList.createdAt = new Date().toISOString();
+        newList.updatedAt = new Date().toISOString();
+        delete newList._rev; // Entferne die alte _rev Property, da es eine neue Dokumentation ist
+    
+        db.put(newList).then((result) => {
+          this.shoppingLists.push(newList);
+          console.log('Liste wurde erfolgreich dupliziert:', result);
+        }).catch((error) => {
+          console.error('Fehler beim Duplizieren der Liste:', error);
+        });
+      } else {
+        console.error('Liste nicht gefunden:', listId);
+      }
+    },
+    
+    openGallery(itemId) {
+      this.loadImagesForItem(itemId);
+      this.isGalleryOpen = true;
+    },
+    loadImagesForItem(itemId) {
+      const item = this.shoppingListItems.find(item => item._id === itemId);
+      if (item && item.images) {
+        this.images = item.images.map(imageUrl => ({
+          url: imageUrl,
+          alt: `Bild für ${item.title}`
+        }));
+      } else {
+        this.images = [];  // Setze die Bilder auf ein leeres Array, wenn keine Bilder gefunden wurden
+        console.error('Keine Bilder gefunden für:', itemId);
+      }
+    },
+    handleFileUpload: function(event, itemId) {
+      const file = event.target.files[0]; // Zugriff auf die Datei aus dem Input-Feld
+      this.uploadImage(file, itemId); // Aufruf der Upload-Funktion
+    },
+
+    uploadImage: async function(file, itemId) {
+      if (!file) return;
+    
+      // Load the AWS SDK and configure credentials and region
+      
+      AWS.config.update({
+        accessKeyId: 'rtT6GTjVmeZh3OwmyvKi',
+        secretAccessKey: 'Gf3cMUv77m5h9iHbnGTw51AiGvTxa7tlmK9ElZuu',
+        region: 'eu' // This needs to match your bucket's region, even if it's a local MinIO setup
+      });
+    
+      const s3 = new AWS.S3({
+        endpoint: 'http://localhost:9000', // Your MinIO server endpoint
+        s3ForcePathStyle: true, // Needed for MinIO to work correctly
+        signatureVersion: 'v4' // Use AWS Signature Version 4
+      });
+    
+      const params = {
+        Bucket: 'shopping-list-images', // Your bucket name
+        Key: itemId, // Filename to save as in the bucket
+        Body: file,
+        ACL: 'public-read' // Optional: Set the ACL policy if needed
+      };
+    
+      try {
+        const data = await s3.upload(params).promise();
+        console.log('Image uploaded successfully', data);
+        
+      } catch (err) {
+        console.error('Failed to upload image', err);
+      }
+    },
+    
+
+    generateShareLink: function(listId) {
+      const list = this.shoppingLists.find(list => list._id === listId);
+      const items = this.shoppingListItems.filter(item => item.list === listId);
+      const data = { list: list, items: items };
+      const strData = JSON.stringify(data);
+    
+      // Komprimieren der Daten
+      const compressed = pako.deflate(strData, { to: 'string' });
+      const base64 = btoa(compressed); // Konvertieren zu Base64
+    
+      const baseUrl = window.location.href.split('?')[0];
+      const shareUrl = `${baseUrl}?data=${encodeURIComponent(base64)}`;
+    
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        alert('Share link copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    },
+    
+
+    loadInitialData: function() {
+      db.createIndex({ index: { fields: ['type'] }}).then(() => {
+        var q = { selector: { type: 'list' } };
+        return db.find(q);
+      }).then((data) => {
+        this.shoppingLists = data.docs;
+        var q = { selector: { type: 'item' } };
+        return db.find(q);
+      }).then((data) => {
+        this.shoppingListItems = data.docs;
+        return db.get('_local/user');
+      }).then((data) => {
+        this.syncURL = data.syncURL;
+        this.startSync();
+      }).catch((e) => {});
+    },
 
     toggleDarkMode() {
       var element = document.body;
