@@ -44,7 +44,7 @@
         <!-- page title -->
         <h2 class="md-title" style="flex: 1">{{ pagetitle }}</h2>
 
-        <button @click="toggleDarkMode">Dark Mode</button>
+        <button @click="toggleDarkMode" id="darkmodeButton">Dark Mode</button>
         
         <!-- save new shopping list button -->
         <md-button id = "checkList" class="md-icon-button" v-if="mode == 'addlist'" v-on:click="onClickSaveShoppingList" v-bind:disabled="singleList.title.length == 0">
@@ -177,25 +177,25 @@
         <md-list-item>
           <!-- shopping item title -->
           <md-input-container>
-            <md-input v-model="newItemTitle" placeholder="New item e.g. eggs" @keyup.enter.native="onAddListItem"></md-input>
+            <md-input v-model="newItemTitle" placeholder="New item e.g. eggs" @keyup.enter.native="onAddListItem" id="itemInput"></md-input>
           </md-input-container>
 
           <!-- shopping item tags -->
           <md-input-container>
             <label>Tags</label>
-            <md-input v-model="itemTagin" placeholder="New Tag e.g. 7%Fat" @keyup.enter.native="onAddListItem"></md-input>
+            <md-input v-model="itemTagin" placeholder="New Tag e.g. 7%Fat" @keyup.enter.native="onAddListItem" id="tagInput"></md-input>
           </md-input-container>
 
 
           <!-- shopping item add button -->
-          <md-button class="md-icon-button md-list-action" v-on:click="onAddListItem" v-bind:disabled="newItemTitle.length == 0">
+          <md-button class="md-icon-button md-list-action" v-on:click="onAddListItem" v-bind:disabled="newItemTitle.length == 0" id="addItemstoList">
             <md-icon class="md-primary">add_shopping_cart</md-icon>
           </md-button>
         </md-list-item>
 
         <!-- shopping list items by date -->
-        <button @click="toggleSortType">Sortiere {{ sortType === 'date' ? 'Datum' : 'Alphabet' }}</button>
-        <button @click="toggleSortOrder">Sortiere {{ sortOrder === 'asc' ? 'absteigend' : 'aufsteigend' }}</button>
+        <button class="md-button" @click="toggleSortType" id="sortTypeButton">Sortiere {{ sortType === 'date' ? 'Datum' : 'Alphabet' }}</button>
+        <button class="md-button" @click="toggleSortOrder" id="sortOrderButton">Sortiere {{ sortOrder === 'asc' ? 'absteigend' : 'aufsteigend' }}</button>
 
 
         <!-- shopping list items -->
@@ -207,7 +207,7 @@
           </div>
 
           <!-- shopping list item title -->
-          <div class="md-list-text-container">
+          <div class="md-list-text-container" id="itemContainer">
             <span v-bind:class="{ cardchecked: item.checked}">{{ item.title }}</span>
           </div>
 
@@ -281,7 +281,7 @@
 
           <md-card-actions>
             <!-- button to edit the list items -->
-            <md-button v-on:click="onClickList(list._id, list.title)">
+            <md-button v-on:click="onClickList(list._id, list.title)" id="editItemsListButton">
                 <md-icon>chevron_right</md-icon>
             </md-button>
           </md-card-actions>
